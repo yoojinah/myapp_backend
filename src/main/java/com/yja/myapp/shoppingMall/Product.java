@@ -22,6 +22,8 @@ public class Product {
     @Column(nullable = false)
     private double productPrice;
 
+    private int quantity;
+
     @Column(nullable = false)
     private String productColor;
 

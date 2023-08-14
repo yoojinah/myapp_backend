@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     // productName에 포함된 문자열을 가진 제품들을 페이징된 형태로 반환하는 쿼리가 실행
     Page<Product> findByProductNameContaining(String productName, Pageable page);
+    Product findByProductName(String productName);
 
 }

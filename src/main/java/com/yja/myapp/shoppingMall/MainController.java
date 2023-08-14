@@ -2,7 +2,7 @@ package com.yja.myapp.shoppingMall;
 
 
 
-import com.yja.myapp.auth.Auth;
+import com.yja.myapp.auth.AuthProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
-@RequestMapping(value = "/shopping")
-public class ShoppingController {
+@RequestMapping(value = "/main")
+public class MainController {
     Map<Long, Product> map = new ConcurrentHashMap<>();
     AtomicLong num = new AtomicLong(0);
 
@@ -60,4 +61,22 @@ public class ShoppingController {
 
         return ResponseEntity.ok().body(res);
     }
+
+    @DeleteMapping(value = "/{no}")
+    public ResponseEntity<Product> removeProductFromCart(@PathVariable Long no) {
+        System.out.println(no);
+
+        Optional<Product> product = repo.findById(no);
+
+        if(!product.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+       repo.delete(product.get());
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
 }
+
